@@ -1,0 +1,12 @@
+#!/bin/bash
+if [ -e "/home/vagrant/md5sum_key" ]; then
+	md5sum "/etc/crontab" > "/home/vagrant/tmp"
+	if diff /home/vagrant/tmp /home/vagrant/md5sum_key; then
+		:
+	else
+		echo "Warning : /etc/crontab has been modified" | mail -s "Crontab" root
+		echo "Sent mail"
+	fi
+	rm "/home/vagrant/tmp"
+fi
+md5sum "/etc/crontab" > "/home/vagrant/md5sum_key"
